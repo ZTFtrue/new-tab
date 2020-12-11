@@ -1,0 +1,16 @@
+<div class="dialog-title">
+    Edit bookmarks
+    <br>
+    <span>{{data.tip}}</span>
+</div>
+
+<div class="dialog-body">
+    <input class="dialog-input" [(ngModel)]="data.bookmarkTitle" type="text" />
+    <input *ngIf="data.bookmarkUrl" class="dialog-input" [(ngModel)]="data.bookmarkUrl" type="text" />
+</div>
+
+<div class="dialog-bottom">
+    <button mat-button (click)="dismissDialog()">Cancel</button>
+    <button mat-raised-button class="dialog-button-delete" (click)="deleteBookmark()">Delete</button>
+    <button class="dialog-button-ok" (click)="updateBookmark()">Save</button>
+</div>

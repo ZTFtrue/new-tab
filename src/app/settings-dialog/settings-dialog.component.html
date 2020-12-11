@@ -1,0 +1,14 @@
+<mat-card class="bookreader-result-card">
+    <mat-form-field>
+        <mat-label>Themes</mat-label>
+        <mat-select (selectionChange)="onChangeTheme($event)" [(value)]="selectedTheme" matNativeControl required>
+            <mat-option *ngFor="let item of themes" [value]="item.theme">
+                {{item.themeView}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-card>
+<div class="dialog-bottom">
+    <button mat-button (click)="dismissDialog()">Cancel</button>
+    <button mat-raised-button class="dialog-button-delete" (click)="confirm()">Confirm</button>
+</div>

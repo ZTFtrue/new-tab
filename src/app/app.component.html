@@ -1,0 +1,51 @@
+<div class="main">
+    <a class="time-view" href="https://www.startpage.com">
+        <embed class="yin-yang" src="../assets/yinyang.svg" type="image/svg+xml" />
+        <div class="time">
+            {{ popem }}
+        </div>
+    </a>
+    <div class="search-view">
+        <div class="select-view">
+            <div class="select-view-selected"> <img class="search-icon"
+                    [src]="serachEngineList[searchEngineIndex].icon" /></div>
+            <div class="select-item-view">
+                <img *ngFor="let item of serachEngineList;let i=index" class="search-icon" (click)="onSelectedItem(i)"
+                    [src]="serachEngineList[i].icon" />
+            </div>
+        </div>
+        <input class="search-input" autofocus [placeholder]="serachEngineList[searchEngineIndex].name"
+            [(ngModel)]="inputContent" (keyup)="onKey($event)" />
+        <img class="search-button" (click)="onSearch()" src="../assets/search.svg" />
+    </div>
+    <div class="site-view">
+        <div matRipple class="site-block" *ngFor="let site of siteList">
+            <a class="site-url" *ngIf="site.url; else folder" (contextmenu)="onClickSiteBlock($event, site)"
+                href="{{ site.url }}">
+                {{ site.title }}
+            </a>
+            <ng-template #folder>
+                <div class="site-folder" (contextmenu)="onClickSiteBlock($event, site)"
+                    (click)="onClickBookmarksFolder($event, site)">
+                    {{ site.title }}
+                    <img class="button-folder" src="../assets/folder-open.svg" />
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<div class="other-setting other-setting-left">
+    <a class="other-setting-block-left" [href]="storeHref">商店</a>
+    <a class="other-setting-block-left"
+        href="https://github.com/ZTFtrue/New-Tab/blob/master/README.md">帮助</a>
+</div>
+<div onselect="false" class="other-setting other-setting-right">
+    <span class="other-setting-block" (click)="openSettings($event)">设置</span>
+    <span class="other-setting-block" (click)="switchWallPaper()">壁纸</span>
+</div>
+<div class="search-bookmark-view">
+    <input class="search-bookmark-input" [placeholder]="placeholderSearchInputBookMark"
+        [ngClass]="{'search-bookmark-input-show': searchInputBookMark}" [(ngModel)]="searchInputBookMark"
+        (keyup)="onKeySearchBook($event)" />
+</div>
+<img class="background-papper" #background_image />

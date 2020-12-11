@@ -1,0 +1,10 @@
+<mat-list>
+    <mat-list-item>
+        {{ data.title }}
+    </mat-list-item>
+    <mat-list-item *ngFor="let bookmark of data.children">
+        <a *ngIf="bookmark.url" class="site-url" mat-raised-button (contextmenu)="onClickSiteBlock($event, bookmark)" href="{{bookmark.url}}">
+            {{ bookmark.title }}
+        </a>
+    </mat-list-item>
+</mat-list>

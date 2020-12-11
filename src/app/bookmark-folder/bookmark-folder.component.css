@@ -1,0 +1,9 @@
+.site-url {
+    width: 100%;
+    padding: 10px 5px;
+    font-size: 1.3rem;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
