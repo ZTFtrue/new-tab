@@ -18,7 +18,7 @@ Replace firefox or chrome new tab.
 
 [Install for firefox](https://addons.mozilla.org/zh-CN/firefox/addon/ztftrue-speed-dial/)  
 
-Install for chrome, it need yo manual install.
+[Install for chrome](https://chrome.google.com/webstore/detail/speed-dial/gloeggiadiopbiplebhjjkncifgbbmfd)
 
 ## Manaul install
 
