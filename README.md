@@ -27,7 +27,7 @@ Clone or download this project,install npm package, run
 ```sh
 npm i
 # for firefox
-npm run bulid
+npm run build
 # for chrome
 npm run chrome
 ```
