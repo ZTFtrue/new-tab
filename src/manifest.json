@@ -11,7 +11,8 @@
     },
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "permissions": [
-        "bookmarks"
+        "bookmarks",
+        "activeTab"
     ],
     "chrome_url_overrides": {
         "newtab": "index.html"

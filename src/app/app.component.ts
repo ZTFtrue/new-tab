@@ -182,13 +182,18 @@ export class AppComponent implements OnInit {
     updateBookmark(setting: string) {
         const bookmark = { title: setting };
         if (!this.configBookMark) {
-            hostObject.bookmarks.create(
-                { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
-                function (newFolder) {
-                    hostObject.bookmarks.update(newFolder.id, bookmark, (value: any) => { this.configBookMark = value; });
-
+            hostObject.bookmarks.search('https://github.com/ZTFtrue/New-Tab', (result: any) => {
+                if (result.length > 0) {
+                    this.configBookMark = result[0];
+                } else {
+                    hostObject.bookmarks.create(
+                        { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
+                        function (bm) {
+                            hostObject.bookmarks.update(bm.id, bookmark, (value: any) => { this.configBookMark = value; });
+                        }
+                    )
                 }
-            );
+            });
         } else {
             hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { this.configBookMark = value; });
         }
