@@ -247,18 +247,18 @@
 }
 
 .other-setting:hover .other-setting-block {
-	display: block;
+	visibility: visible;
 }
 
 .other-setting:hover .other-setting-block-left {
-	display: block;
+	visibility: visible;
 }
 
 .other-setting-block-left {
 	width: 50px;
 	height: 50px;
 	margin: 4px 0;
-	display: none;
+	visibility: hidden;
 	border-radius: 50% 0;
 	text-align: center;
 	line-height: 50px;
@@ -271,7 +271,7 @@
 	width: 50px;
 	height: 50px;
 	margin: 4px 0;
-	display: none;
+	visibility: hidden;
 	border-radius: 0 50%;
 	text-align: center;
 	line-height: 50px;
