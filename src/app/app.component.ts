@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     searchSiteList = [];
     eventBool = false;
     time = null;
-    speedDialSettings = { 'theme': null, 'background': null, 'search': 1 };
+    speedDialSettings = { 'ame': 'NewTab', 'theme': null, 'background': null, 'search': 1 };
     configBookMark;
     labelPosition = 'after';
     disabled = false;
@@ -66,8 +66,7 @@ export class AppComponent implements OnInit {
     onSelectedItem(value: number) {
         this.speedDialSettings.search = value;
         this.searchEngineIndex = value;
-        const bookmark = { title: JSON.stringify(this.speedDialSettings) };
-        hostObject.bookmarks.update(this.configBookMark.id, bookmark, (_value: any) => { });
+        this.updateBookmark(JSON.stringify(this.speedDialSettings));
     }
     ngOnInit() {
         // document.body.setAttribute('data-theme', 'newtab-light-theme');
@@ -176,11 +175,25 @@ export class AppComponent implements OnInit {
             if (selectedTheme) {
                 this.speedDialSettings.theme = selectedTheme;
                 document.body.setAttribute('data-theme', selectedTheme);
-                const bookmark = { title: JSON.stringify(this.speedDialSettings) };
-                hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { });
+                this.updateBookmark(JSON.stringify(this.speedDialSettings));
             }
         });
     }
+    updateBookmark(setting: string) {
+        const bookmark = { title: setting };
+        if (!this.configBookMark) {
+            hostObject.bookmarks.create(
+                { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
+                function (newFolder) {
+                    hostObject.bookmarks.update(newFolder.id, bookmark, (value: any) => { this.configBookMark = value; });
+
+                }
+            );
+        } else {
+            hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { this.configBookMark = value; });
+        }
+    }
+
     @HostListener('document:keyup', ['$event'])
     onDialogKey(event: KeyboardEvent) { }
 
@@ -204,10 +217,7 @@ export class AppComponent implements OnInit {
         }
         // this.detector.run(() => (imageElement.setAttribute('src', './assets/' + this.wallpapersIndex + '.jpg')));
         this.imageElement.nativeElement.setAttribute('src', './assets/' + this.wallpapersIndex + '.jpg');
-        if (this.configBookMark) {
-            this.speedDialSettings.background = this.wallpapersIndex;
-            const bookmark = { title: JSON.stringify(this.speedDialSettings) };
-            hostObject.bookmarks.update(this.configBookMark.id, bookmark, (_value: any) => { });
-        }
+        this.speedDialSettings.background = this.wallpapersIndex;
+        this.updateBookmark(JSON.stringify(this.speedDialSettings));
     }
 }
