@@ -44,7 +44,7 @@
     <span class="other-setting-block" (click)="switchWallPaper()">壁纸</span>
 </div>
 <div class="search-bookmark-view">
-    <input class="search-bookmark-input" [placeholder]="placeholderSearchInputBookMark"
+    <input class="search-bookmark-input" placeholder="Search bookmarks"
         [ngClass]="{'search-bookmark-input-show': searchInputBookMark}" [(ngModel)]="searchInputBookMark"
         (keyup)="onKeySearchBook($event)" />
 </div>

@@ -20,11 +20,8 @@ interface SearchEngine {
 })
 export class AppComponent implements OnInit {
     @ViewChild('background_image', { static: true }) imageElement: ElementRef;
-
-    title = 'NewTab';
     inputContent = null;
     popem = '洛霞与孤鹜齐飞，秋水共长天一色';
-    placeholder = '';
     dialogShow = false;
     siteList = [];
     searchEngineIndex = 0;
@@ -35,14 +32,9 @@ export class AppComponent implements OnInit {
     ];
     storeHref = environment.storeHref;
     searchInputBookMark: string = null;
-    placeholderSearchInputBookMark = 'Search bookmarks';
     searchSiteList = [];
-    eventBool = false;
-    time = null;
     speedDialSettings = { 'ame': 'NewTab', 'theme': null, 'background': null, 'search': 1 };
     configBookMark;
-    labelPosition = 'after';
-    disabled = false;
     wallpapersIndex = 1;
     constructor(
         public dialog: MatDialog,
@@ -87,12 +79,11 @@ export class AppComponent implements OnInit {
     }
 
     onKeySearchBook(event: any) {
-        if (!this.searchInputBookMark) {
-            this.siteList = this.searchSiteList;
-        } else {
-            this.eventBool = true;
+        if (this.searchInputBookMark) {
             this.siteList = [];
             hostObject.bookmarks.search(this.searchInputBookMark, (result: any) => (this.detector.run(() => (this.siteList = result))));
+        } else {
+            this.getBookMarks();
         }
     }
     getBookMarks() {
