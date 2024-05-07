@@ -20,6 +20,7 @@ interface SearchEngine {
 })
 export class AppComponent implements OnInit {
     @ViewChild('background_image', { static: true }) imageElement: ElementRef;
+    @ViewChild('upload_backimage', { static: true }) inputBackgroundImageElement: ElementRef;
     inputContent = null;
     popem = '洛霞与孤鹜齐飞，秋水共长天一色';
     dialogShow = false;
@@ -34,8 +35,13 @@ export class AppComponent implements OnInit {
     searchInputBookMark: string = null;
     searchSiteList = [];
     speedDialSettings = { 'ame': 'NewTab', 'theme': null, 'background': null, 'search': 1 };
-    configBookMark;
+    backgroundImage = null;
     wallpapersIndex = 1;
+    SettingsNameObject = {
+        theme: 'theme',
+        background: 'background',
+        search: 'search'
+    }
     constructor(
         public dialog: MatDialog,
         public detector: NgZone,
@@ -58,17 +64,17 @@ export class AppComponent implements OnInit {
     onSelectedItem(value: number) {
         this.speedDialSettings.search = value;
         this.searchEngineIndex = value;
-        this.updateBookmark(JSON.stringify(this.speedDialSettings));
+        // this.updateBookmark(JSON.stringify(this.speedDialSettings));
     }
     ngOnInit() {
         // document.body.setAttribute('data-theme', 'newtab-light-theme');
+        this.setData();
         this.getBookMarks();
         this.communication.messageObserve.subscribe((res: boolean) => {
             if (res) {
                 this.getBookMarks();
             }
         });
-        this.getConfig();
     }
     // 非强类型
     onKey(event: any) {
@@ -90,50 +96,51 @@ export class AppComponent implements OnInit {
         const bookMarkStack = [];
         /** 这里时从获取到的数据中,宽度遍历获取到要显示的数据. 原来的方法在chrome中存在无法获取到数据的Bug.*/
         /** hostObject.bookmarks.search('desktop',(result: any[]) => { */
-        hostObject.bookmarks.getTree((result: any[]) => {
-            bookMarkStack.push(...result);
-            while (bookMarkStack.length > 0) {
-                const item = bookMarkStack.pop();
-                if (item.title === 'desktop-newtab') {
-                    this.searchSiteList = item.children;
-                    this.detector.run(() => (this.siteList = this.searchSiteList));
-                    break;
+        if (hostObject)
+            hostObject.bookmarks.getTree((result: any[]) => {
+                bookMarkStack.push(...result);
+                while (bookMarkStack.length > 0) {
+                    const item = bookMarkStack.pop();
+                    if (item.title === 'desktop-newtab') {
+                        this.searchSiteList = item.children;
+                        this.detector.run(() => (this.siteList = this.searchSiteList));
+                        break;
+                    }
+                    if (item.children && item.children.length > 0) {
+                        bookMarkStack.push(...item.children);
+                    }
                 }
-                if (item.children && item.children.length > 0) {
-                    bookMarkStack.push(...item.children);
-                }
-            }
-        });
+            });
     }
 
-    getConfig() {
+    setData() {
         // 使用书签存储设置
-        hostObject.bookmarks.search('https://github.com/ZTFtrue/New-Tab', (result: any) => {
-            if (result.length > 0) {
-                this.configBookMark = result[0];
-                this.speedDialSettings = JSON.parse(this.configBookMark.title);
-                const si = this.speedDialSettings.search;
-                const wallpapersIndex = this.speedDialSettings.background;
-                this.detector.run(() => {
-                    if (wallpapersIndex) {
-                        this.wallpapersIndex = parseInt(JSON.parse(wallpapersIndex), 10);
-                        this.imageElement.nativeElement.setAttribute('src', './assets/' + this.wallpapersIndex + '.jpg');
-                    } else {
-                        this.imageElement.nativeElement.setAttribute('src', './assets/1.jpg');
-                    }
-                    if (si) {
-                        this.searchEngineIndex = si;
-                    }
-                    if (this.speedDialSettings.theme) {
-                        this.document.body.classList.replace(this.document.body.classList[0], this.speedDialSettings.theme);
-                        document.body.setAttribute('data-theme', this.speedDialSettings.theme);
-                    }
-                });
+        // const si = this.speedDialSettings.search;
+        // const wallpapersIndex = this.speedDialSettings.background;
+        let background = localStorage.getItem(this.SettingsNameObject.background);
+        if (background) {
+            this.imageElement.nativeElement.setAttribute('src', background);
+        } else {
+            this.imageElement.nativeElement.setAttribute('src', './assets/1.jpg');
+        }
 
-            } else {
-                this.imageElement.nativeElement.setAttribute('src', './assets/1.jpg');
-            }
-        });
+
+        // this.detector.run(() => {
+        //     if (wallpapersIndex) {
+        //         this.wallpapersIndex = parseInt(JSON.parse(wallpapersIndex), 10);
+
+        //     } else {
+
+        //     }
+        //     if (si) {
+        //         this.searchEngineIndex = si;
+        //     }
+        //     if (this.speedDialSettings.theme) {
+        //         this.document.body.classList.replace(this.document.body.classList[0], this.speedDialSettings.theme);
+        //         document.body.setAttribute('data-theme', this.speedDialSettings.theme);
+        //     }
+        // });
+
     }
 
     onClickSiteBlock(event: MouseEvent, site: any) {
@@ -166,29 +173,29 @@ export class AppComponent implements OnInit {
             if (selectedTheme) {
                 this.speedDialSettings.theme = selectedTheme;
                 document.body.setAttribute('data-theme', selectedTheme);
-                this.updateBookmark(JSON.stringify(this.speedDialSettings));
+                // this.updateBookmark(JSON.stringify(this.speedDialSettings));
             }
         });
     }
-    updateBookmark(setting: string) {
-        const bookmark = { title: setting };
-        if (!this.configBookMark) {
-            hostObject.bookmarks.search('https://github.com/ZTFtrue/New-Tab', (result: any) => {
-                if (result.length > 0) {
-                    this.configBookMark = result[0];
-                } else {
-                    hostObject.bookmarks.create(
-                        { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
-                        function (bm) {
-                            hostObject.bookmarks.update(bm.id, bookmark, (value: any) => { this.configBookMark = value; });
-                        }
-                    )
-                }
-            });
-        } else {
-            hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { this.configBookMark = value; });
-        }
-    }
+    // updateBookmark(setting: string) {
+    //     const bookmark = { title: setting };
+    //     if (!this.configBookMark) {
+    //         hostObject.bookmarks.search('https://github.com/ZTFtrue/New-Tab', (result: any) => {
+    //             if (result.length > 0) {
+    //                 this.configBookMark = result[0];
+    //             } else {
+    //                 hostObject.bookmarks.create(
+    //                     { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
+    //                     function (bm) {
+    //                         hostObject.bookmarks.update(bm.id, bookmark, (value: any) => { this.configBookMark = value; });
+    //                     }
+    //                 )
+    //             }
+    //         });
+    //     } else {
+    //         hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { this.configBookMark = value; });
+    //     }
+    // }
 
     @HostListener('document:keyup', ['$event'])
     onDialogKey(event: KeyboardEvent) { }
@@ -207,13 +214,18 @@ export class AppComponent implements OnInit {
     }
 
     switchWallPaper() {
-        this.wallpapersIndex = this.wallpapersIndex + 1;
-        if (this.wallpapersIndex >= 4) {// Because of only have 3 pictures.
-            this.wallpapersIndex = 1;
+        this.inputBackgroundImageElement.nativeElement?.click()
+    }
+    preview_image(event: any): void {
+        const imgPath = this.inputBackgroundImageElement.nativeElement.files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            // convert image file to base64 string and save to localStorage
+            this.imageElement.nativeElement.setAttribute('src', reader.result);
+            localStorage.setItem(this.SettingsNameObject.background, reader.result as string);
+        }, false);
+        if (imgPath) {
+            reader.readAsDataURL(imgPath);
         }
-        // this.detector.run(() => (imageElement.setAttribute('src', './assets/' + this.wallpapersIndex + '.jpg')));
-        this.imageElement.nativeElement.setAttribute('src', './assets/' + this.wallpapersIndex + '.jpg');
-        this.speedDialSettings.background = this.wallpapersIndex;
-        this.updateBookmark(JSON.stringify(this.speedDialSettings));
     }
 }

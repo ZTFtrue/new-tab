@@ -1,69 +1,86 @@
 // 引入material的theming，其中包含了混入器
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
 // 导入核心混入器，确保只导入一次
-@include mat-core();
+@include mat.core();
 
 @mixin site-block($color) {
 	@include background(white);
 	@include textcolor(black);
+
 	:hover {
 		@include background-hover($color);
 	}
 }
+
 @mixin background-hover($color) {
-	@if $color == 'transparent' {
-        background: transparent;
-	} @else {
+	@if $color =='transparent' {
+		background: transparent;
+	}
+
+	@else {
 		:host-context([data-theme="newtab-light-theme"]) & {
 			background: #e7e7e7a6;
 		}
+
 		:host-context([data-theme="newtab-dark-theme"]) & {
 			background: #4645454b;
 		}
 	}
 }
+
 @mixin background($color) {
 	background: $color;
+
 	:host-context([data-theme="newtab-light-theme"]) & {
 		background: #e7e7e7a6;
 	}
+
 	:host-context([data-theme="newtab-dark-theme"]) & {
 		background: #4645454b;
 	}
 }
+
 @mixin textcolor($color) {
 	color: $color;
+
 	:host-context([data-theme="newtab-light-theme"]) & {
 		color: black;
 	}
+
 	:host-context([data-theme="newtab-dark-theme"]) & {
 		color: whitesmoke;
 	}
 }
 
 // 定义个深色主题.
-$dark-primary: mat-palette($mat-gray, 700, 100, 900);
-$dark-accent: mat-palette($mat-blue-gray, 700, 100, 900);
-$dark-warn: mat-palette($mat-pink, 500, A100, 800);
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-primary: mat.define-palette(mat.$indigo-palette, 700, 100, 900);
+$dark-accent: mat.define-palette(mat.$indigo-palette, 700, 100, 900);
+$dark-warn: mat.define-palette(mat.$indigo-palette, 500, A100, 800);
+$dark-theme: mat.define-dark-theme((color: (primary: $dark-primary,
+				accent: $dark-accent,
+				warn:$dark-warn,
+			),
+			typography: mat.define-typography-config(),
+			density: 0,
+		));
 
 .newtab-dark-theme {
-	@include angular-material-theme($dark-theme);
+	@include mat.core-color($dark-theme);
 	$primary: map-get($dark-theme, primary);
 	$accent: map-get($dark-theme, accent);
 	$warn: map-get($dark-theme, warn);
 }
 
-$light-primary: mat-palette($mat-blue-grey);
-$light-accent: mat-palette($mat-grey, 500, 100, 900);
-$light-warn: mat-palette($mat-deep-orange);
-$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+// $light-primary: mat.define-palette($mat-blue-grey);
+// $light-accent: mat.define-palette($mat-grey, 500, 100, 900);
+// $light-warn: mat.define-palette($mat-deep-orange);
+// $light-theme: mat.define-palette($light-primary, $light-accent, $light-warn);
 
-.newtab-light-theme {
-	@include angular-material-theme($light-theme);
-	$primary: map-get($light-theme, primary);
-	$accent: map-get($light-theme, accent);
-	$warn: map-get($light-theme, warn);
-}
+// .newtab-light-theme {
+// 	@include angular-material-theme($light-theme);
+// 	$primary: map-get($light-theme, primary);
+// 	$accent: map-get($light-theme, accent);
+// 	$warn: map-get($light-theme, warn);
+// }

@@ -44,3 +44,4 @@ testem.log
 Thumbs.db
 *.pem
 
+.angular

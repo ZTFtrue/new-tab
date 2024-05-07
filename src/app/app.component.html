@@ -35,13 +35,16 @@
     </div>
 </div>
 <div class="other-setting other-setting-left">
-    <a class="other-setting-block-left" [href]="storeHref">商店</a>
-    <a class="other-setting-block-left"
-        href="https://github.com/ZTFtrue/New-Tab/blob/main/README.md">帮助</a>
+    <a class="other-setting-block-left" [href]="storeHref"> <img src="../assets/store.svg" /></a>
+    <a class="other-setting-block-left" href="https://github.com/ZTFtrue/New-Tab/blob/main/README.md"> <img
+            src="../assets/help.svg" /></a>
 </div>
 <div onselect="false" class="other-setting other-setting-right">
-    <span class="other-setting-block" (click)="openSettings($event)">设置</span>
-    <span class="other-setting-block" (click)="switchWallPaper()">壁纸</span>
+    <!-- <span class="other-setting-block" (click)="openSettings($event)"> <img src="../assets/settings.svg" /></span> -->
+    <span class="other-setting-block" (click)="switchWallPaper()">
+        <input type="file" accept="image/*" #upload_backimage  (change)="preview_image($event)">
+        <img src="../assets/wallpaper.svg" />
+    </span>
 </div>
 <div class="search-bookmark-view">
     <input class="search-bookmark-input" placeholder="Search bookmarks"

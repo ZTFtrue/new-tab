@@ -1,19 +1,22 @@
 {
     "name": "Speed Dial",
     "description": "Speed Dial",
-    "version": "2.6",
-    "manifest_version": 2,
+    "version": "3.0",
+    "manifest_version": 3,
     "icons": {
         "128": "assets/logo128.png",
         "16": "assets/logo16.png",
         "48": "assets/logo48.png",
         "512": "assets/logo.png"
     },
-    "content_security_policy": "script-src 'self'; object-src 'self'",
     "permissions": [
-        "bookmarks"
+        "bookmarks",
+        "tabs"
     ],
     "chrome_url_overrides": {
         "newtab": "index.html"
+    },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';style-src 'unsafe-inline' 'self'"
     }
 }
