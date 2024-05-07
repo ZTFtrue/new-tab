@@ -18,5 +18,10 @@
     },
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self';style-src 'unsafe-inline' 'self'"
+    },
+    "action":{
+    },
+    "background": {
+        "service_worker": "assets/background.js"
     }
 }

@@ -9,6 +9,8 @@
     </mat-form-field>
 </mat-card>
 <div class="dialog-bottom">
+    <button mat-button (click)="export()">Export</button>
+    <button mat-button (click)="import()">Import</button>
     <button mat-button (click)="dismissDialog()">Cancel</button>
     <button mat-raised-button class="dialog-button-delete" (click)="confirm()">Confirm</button>
 </div>

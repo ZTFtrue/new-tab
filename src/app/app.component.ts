@@ -7,12 +7,14 @@ import { DialogComponent } from './dialog/dialog.component';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '../environments/environment';
+import { Utils } from './Utils/Utils';
 const hostObject = environment.hostObject;
 interface SearchEngine {
     url: string;
     icon: string;
     name: string;
 }
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -36,11 +38,7 @@ export class AppComponent implements OnInit {
     searchSiteList = [];
     backgroundImage = null;
     wallpapersIndex = 1;
-    SettingsNameObject = {
-        theme: 'theme',
-        background: 'background',
-        search: 'search'
-    }
+
     constructor(
         public dialog: MatDialog,
         public detector: NgZone,
@@ -62,7 +60,7 @@ export class AppComponent implements OnInit {
     }
     onSelectedItem(value: number) {
         this.searchEngineIndex = value;
-        localStorage.setItem(this.SettingsNameObject.search, value.toString());
+        localStorage.setItem(Utils.SettingsNameObject.search, value.toString());
     }
     ngOnInit() {
         this.setData();
@@ -110,8 +108,9 @@ export class AppComponent implements OnInit {
     }
 
     setData() {
-        let background = localStorage.getItem(this.SettingsNameObject.background);
-        let index = localStorage.getItem(this.SettingsNameObject.search);
+        let background = localStorage.getItem(Utils.SettingsNameObject.background);
+        let index = localStorage.getItem(Utils.SettingsNameObject.search);
+        let themeName = localStorage.getItem(Utils.SettingsNameObject.theme);
         if (background) {
             this.imageElement.nativeElement.setAttribute('src', background);
         } else {
@@ -122,7 +121,6 @@ export class AppComponent implements OnInit {
         }
         // this.detector.run(() => {
         //     if (this.speedDialSettings.theme) {
-        let themeName = localStorage.getItem(this.SettingsNameObject.theme);
         if (themeName) {
             this.document.body.classList.replace(this.document.body.classList[0], themeName);
             document.body.setAttribute('data-theme', themeName);
@@ -160,7 +158,7 @@ export class AppComponent implements OnInit {
         dialogRef.afterClosed().subscribe((selectedTheme: string) => {
             if (selectedTheme) {
                 document.body.setAttribute('data-theme', selectedTheme);
-                localStorage.setItem(this.SettingsNameObject.theme, selectedTheme);
+                localStorage.setItem(Utils.SettingsNameObject.theme, selectedTheme);
             }
         });
     }
@@ -191,7 +189,7 @@ export class AppComponent implements OnInit {
         reader.addEventListener("load", () => {
             // convert image file to base64 string and save to localStorage
             this.imageElement.nativeElement.setAttribute('src', reader.result);
-            localStorage.setItem(this.SettingsNameObject.background, reader.result as string);
+            localStorage.setItem(Utils.SettingsNameObject.background, reader.result as string);
         }, false);
         if (imgPath) {
             reader.readAsDataURL(imgPath);
