@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
     storeHref = environment.storeHref;
     searchInputBookMark: string = null;
     searchSiteList = [];
-    speedDialSettings = { 'ame': 'NewTab', 'theme': null, 'background': null, 'search': 1 };
     backgroundImage = null;
     wallpapersIndex = 1;
     SettingsNameObject = {
@@ -62,12 +61,10 @@ export class AppComponent implements OnInit {
         }
     }
     onSelectedItem(value: number) {
-        this.speedDialSettings.search = value;
         this.searchEngineIndex = value;
-        // this.updateBookmark(JSON.stringify(this.speedDialSettings));
+        localStorage.setItem(this.SettingsNameObject.search, value.toString());
     }
     ngOnInit() {
-        // document.body.setAttribute('data-theme', 'newtab-light-theme');
         this.setData();
         this.getBookMarks();
         this.communication.messageObserve.subscribe((res: boolean) => {
@@ -96,51 +93,42 @@ export class AppComponent implements OnInit {
         const bookMarkStack = [];
         /** 这里时从获取到的数据中,宽度遍历获取到要显示的数据. 原来的方法在chrome中存在无法获取到数据的Bug.*/
         /** hostObject.bookmarks.search('desktop',(result: any[]) => { */
-        if (hostObject)
-            hostObject.bookmarks.getTree((result: any[]) => {
-                bookMarkStack.push(...result);
-                while (bookMarkStack.length > 0) {
-                    const item = bookMarkStack.pop();
-                    if (item.title === 'desktop-newtab') {
-                        this.searchSiteList = item.children;
-                        this.detector.run(() => (this.siteList = this.searchSiteList));
-                        break;
-                    }
-                    if (item.children && item.children.length > 0) {
-                        bookMarkStack.push(...item.children);
-                    }
+        hostObject.bookmarks.getTree((result: any[]) => {
+            bookMarkStack.push(...result);
+            while (bookMarkStack.length > 0) {
+                const item = bookMarkStack.pop();
+                if (item.title === 'desktop-newtab') {
+                    this.searchSiteList = item.children;
+                    this.detector.run(() => (this.siteList = this.searchSiteList));
+                    break;
                 }
-            });
+                if (item.children && item.children.length > 0) {
+                    bookMarkStack.push(...item.children);
+                }
+            }
+        });
     }
 
     setData() {
-        // 使用书签存储设置
-        // const si = this.speedDialSettings.search;
-        // const wallpapersIndex = this.speedDialSettings.background;
         let background = localStorage.getItem(this.SettingsNameObject.background);
+        let index = localStorage.getItem(this.SettingsNameObject.search);
         if (background) {
             this.imageElement.nativeElement.setAttribute('src', background);
         } else {
             this.imageElement.nativeElement.setAttribute('src', './assets/1.jpg');
         }
-
-
+        if (index) {
+            this.searchEngineIndex = parseInt(index, 10);
+        }
         // this.detector.run(() => {
-        //     if (wallpapersIndex) {
-        //         this.wallpapersIndex = parseInt(JSON.parse(wallpapersIndex), 10);
-
-        //     } else {
-
-        //     }
-        //     if (si) {
-        //         this.searchEngineIndex = si;
-        //     }
         //     if (this.speedDialSettings.theme) {
-        //         this.document.body.classList.replace(this.document.body.classList[0], this.speedDialSettings.theme);
-        //         document.body.setAttribute('data-theme', this.speedDialSettings.theme);
+        let themeName = localStorage.getItem(this.SettingsNameObject.theme);
+        if (themeName) {
+            this.document.body.classList.replace(this.document.body.classList[0], themeName);
+            document.body.setAttribute('data-theme', themeName);
+        }
         //     }
         // });
-
     }
 
     onClickSiteBlock(event: MouseEvent, site: any) {
@@ -154,11 +142,11 @@ export class AppComponent implements OnInit {
                 bookmarkUrl: site.url
             }
         });
-        // dialogRef.afterClosed().subscribe(result => {
-        //     if (result) {
-        //         this.getBookMarks();
-        //     }
-        // });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.getBookMarks();
+            }
+        });
         event.preventDefault();
     }
     openSettings(event: MouseEvent) {
@@ -171,31 +159,11 @@ export class AppComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((selectedTheme: string) => {
             if (selectedTheme) {
-                this.speedDialSettings.theme = selectedTheme;
                 document.body.setAttribute('data-theme', selectedTheme);
-                // this.updateBookmark(JSON.stringify(this.speedDialSettings));
+                localStorage.setItem(this.SettingsNameObject.theme, selectedTheme);
             }
         });
     }
-    // updateBookmark(setting: string) {
-    //     const bookmark = { title: setting };
-    //     if (!this.configBookMark) {
-    //         hostObject.bookmarks.search('https://github.com/ZTFtrue/New-Tab', (result: any) => {
-    //             if (result.length > 0) {
-    //                 this.configBookMark = result[0];
-    //             } else {
-    //                 hostObject.bookmarks.create(
-    //                     { 'parentId': null, 'title': '', 'url': 'https://github.com/ZTFtrue/New-Tab' },
-    //                     function (bm) {
-    //                         hostObject.bookmarks.update(bm.id, bookmark, (value: any) => { this.configBookMark = value; });
-    //                     }
-    //                 )
-    //             }
-    //         });
-    //     } else {
-    //         hostObject.bookmarks.update(this.configBookMark.id, bookmark, (value: any) => { this.configBookMark = value; });
-    //     }
-    // }
 
     @HostListener('document:keyup', ['$event'])
     onDialogKey(event: KeyboardEvent) { }
@@ -216,6 +184,7 @@ export class AppComponent implements OnInit {
     switchWallPaper() {
         this.inputBackgroundImageElement.nativeElement?.click()
     }
+
     preview_image(event: any): void {
         const imgPath = this.inputBackgroundImageElement.nativeElement.files[0];
         const reader = new FileReader();

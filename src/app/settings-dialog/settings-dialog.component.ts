@@ -30,8 +30,6 @@ export class SettingsDialogComponent implements OnInit {
         this.dialogRef.close(null);
     }
     confirm(): void {
-        // this.dialogRef.close( this.selectedTheme));
-        localStorage.setItem('result', JSON.stringify(new Settins(this.selectedTheme)));
         this.dialogRef.close(this.selectedTheme);
     }
     changeTheme(theme: string) {

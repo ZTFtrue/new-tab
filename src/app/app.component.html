@@ -40,7 +40,7 @@
             src="../assets/help.svg" /></a>
 </div>
 <div onselect="false" class="other-setting other-setting-right">
-    <!-- <span class="other-setting-block" (click)="openSettings($event)"> <img src="../assets/settings.svg" /></span> -->
+    <span class="other-setting-block" (click)="openSettings($event)"> <img src="../assets/settings.svg" /></span>
     <span class="other-setting-block" (click)="switchWallPaper()">
         <input type="file" accept="image/*" #upload_backimage  (change)="preview_image($event)">
         <img src="../assets/wallpaper.svg" />
