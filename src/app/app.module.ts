@@ -21,14 +21,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { BookmarkFolderComponent } from './bookmark-folder/bookmark-folder.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DialogComponent,
-        BookmarkFolderComponent,
-        SettingsDialogComponent
+        BookmarkFolderComponent
     ],
     imports: [
         BrowserModule,

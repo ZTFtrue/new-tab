@@ -1,5 +1,13 @@
 <mat-card class="bookreader-result-card">
     <mat-form-field>
+        <mat-label>Title input</mat-label>
+        <input matInput type="text" [(ngModel)]="title">
+    </mat-form-field>
+    <!-- <mat-form-field>
+        <mat-label>Auto run script</mat-label>
+        <input matInput type="text" [(ngModel)]="script">
+    </mat-form-field> -->
+    <mat-form-field>
         <mat-label>Themes</mat-label>
         <mat-select (selectionChange)="onChangeTheme($event)" [(value)]="selectedTheme" matNativeControl required>
             <mat-option *ngFor="let item of themes" [value]="item.theme">

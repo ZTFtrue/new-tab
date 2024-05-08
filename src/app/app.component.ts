@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     @ViewChild('background_image', { static: true }) imageElement: ElementRef;
     @ViewChild('upload_backimage', { static: true }) inputBackgroundImageElement: ElementRef;
     inputContent = null;
-    popem = '洛霞与孤鹜齐飞，秋水共长天一色';
+    title = '洛霞与孤鹜齐飞，秋水共长天一色';
     dialogShow = false;
     siteList = [];
     searchEngineIndex = 0;
@@ -70,6 +70,12 @@ export class AppComponent implements OnInit {
                 this.getBookMarks();
             }
         });
+        // let script = localStorage.getItem(Utils.SettingsNameObject.script);
+        // if (script) {
+        //     this.runCustomScript(script)();
+        // }
+    }
+    ngOnMounted() {
     }
     // 非强类型
     onKey(event: any) {
@@ -111,6 +117,7 @@ export class AppComponent implements OnInit {
         let background = localStorage.getItem(Utils.SettingsNameObject.background);
         let index = localStorage.getItem(Utils.SettingsNameObject.search);
         let themeName = localStorage.getItem(Utils.SettingsNameObject.theme);
+        let title = localStorage.getItem(Utils.SettingsNameObject.title);
         if (background) {
             this.imageElement.nativeElement.setAttribute('src', background);
         } else {
@@ -119,14 +126,15 @@ export class AppComponent implements OnInit {
         if (index) {
             this.searchEngineIndex = parseInt(index, 10);
         }
-        // this.detector.run(() => {
-        //     if (this.speedDialSettings.theme) {
-        if (themeName) {
-            this.document.body.classList.replace(this.document.body.classList[0], themeName);
-            document.body.setAttribute('data-theme', themeName);
+        if (title) {
+            this.title = title
         }
-        //     }
-        // });
+        this.detector.run(() => {
+            if (themeName) {
+                this.document.body.classList.replace(this.document.body.classList[0], themeName);
+                document.body.setAttribute('data-theme', themeName);
+            }
+        });
     }
 
     onClickSiteBlock(event: MouseEvent, site: any) {
@@ -157,9 +165,15 @@ export class AppComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((selectedTheme: string) => {
             if (selectedTheme) {
-                document.body.setAttribute('data-theme', selectedTheme);
                 localStorage.setItem(Utils.SettingsNameObject.theme, selectedTheme);
+                document.body.setAttribute('data-theme', selectedTheme);
             }
+            this.detector.run(() => {
+                let title = localStorage.getItem(Utils.SettingsNameObject.title)
+                if (title) {
+                    this.title = title
+                }
+            });
         });
     }
 
@@ -194,5 +208,8 @@ export class AppComponent implements OnInit {
         if (imgPath) {
             reader.readAsDataURL(imgPath);
         }
+    }
+    runCustomScript(script: string) {
+        return Function(script)();
     }
 }

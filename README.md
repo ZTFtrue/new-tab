@@ -41,3 +41,7 @@ open "dist/" folder.
 ![1](./picture/1.jpg)
 ![1](./picture/2.jpg)
 ![1](./picture/3.jpg)
+
+## TODO
+
+- set search engine ad by user, then user can search and get money 😂.

@@ -3,8 +3,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { DOCUMENT } from '@angular/common';
 import { Utils } from '../Utils/Utils';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+    imports: [MatInputModule, MatFormFieldModule, MatSelectModule, MatCardModule, MatIconModule, MatButtonModule, FormsModule],
+    standalone: true,
     selector: 'app-settings-dialog',
     templateUrl: './settings-dialog.component.html',
     styleUrls: ['./settings-dialog.component.css']
@@ -17,11 +27,15 @@ export class SettingsDialogComponent implements OnInit {
     themeTemp;
     selectedTheme: string;
     lastTheme: string;
+    title: string;
+    script: string;
     constructor(private dialogRef: MatDialogRef<SettingsDialogComponent>, public detector: NgZone,
         @Inject(DOCUMENT) private document: Document, @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
         this.themeTemp = this.document.body.classList[0];
         this.lastTheme = this.themeTemp;
+        this.title = localStorage.getItem(Utils.SettingsNameObject.title)
+        this.script = localStorage.getItem(Utils.SettingsNameObject.script);
     }
     ngOnInit(): void {
     }
@@ -30,7 +44,13 @@ export class SettingsDialogComponent implements OnInit {
         this.dialogRef.close(null);
     }
     confirm(): void {
+        localStorage.setItem(Utils.SettingsNameObject.title, this.title)
         this.dialogRef.close(this.selectedTheme);
+        if(this.script&&this.script.trim()){
+            localStorage.setItem(Utils.SettingsNameObject.script,this.script);
+        }else{
+            localStorage.removeItem(Utils.SettingsNameObject.script);
+        }
     }
     changeTheme(theme: string) {
         this.detector.run(() => (this.document.body.classList.replace(this.lastTheme, theme)));
@@ -43,7 +63,9 @@ export class SettingsDialogComponent implements OnInit {
         let background = localStorage.getItem(Utils.SettingsNameObject.background);
         let index = localStorage.getItem(Utils.SettingsNameObject.search);
         let themeName = localStorage.getItem(Utils.SettingsNameObject.theme);
-        let data = { 'background': background, 'searchIndex': index, 'theme': themeName };
+        let title = localStorage.getItem(Utils.SettingsNameObject.title);
+        let script = localStorage.getItem(Utils.SettingsNameObject.script);
+        let data = { 'background': background, 'searchIndex': index, 'theme': themeName, 'title': title ,'script':script};
         var element = document.createElement('a');
         const blob = new Blob([JSON.stringify(data)], { type: 'data:text/plain;charset=utf-8' })
         const url = URL.createObjectURL(blob) // Create an object URL from blob
@@ -64,6 +86,8 @@ export class SettingsDialogComponent implements OnInit {
                 localStorage.setItem(Utils.SettingsNameObject.background, data.background);
                 localStorage.setItem(Utils.SettingsNameObject.search, data.searchIndex);
                 localStorage.setItem(Utils.SettingsNameObject.theme, data.theme);
+                localStorage.setItem(Utils.SettingsNameObject.title, data.title);
+                localStorage.setItem(Utils.SettingsNameObject.script, data.script);
                 window.location.reload();
             }, false);
             if (files && files.length > 0) {
