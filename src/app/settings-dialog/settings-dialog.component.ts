@@ -1,11 +1,28 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Utils } from '../Utils/Utils';
 
 
 @Component({
+    standalone: true,
+    imports: [BrowserModule,
+        FormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        CommonModule,
+        MatSelectModule,
+        BrowserAnimationsModule,],
     selector: 'app-settings-dialog',
     templateUrl: './settings-dialog.component.html',
     styleUrls: ['./settings-dialog.component.css']
@@ -37,9 +54,9 @@ export class SettingsDialogComponent implements OnInit {
     confirm(): void {
         localStorage.setItem(Utils.SettingsNameObject.title, this.title)
         this.dialogRef.close(this.selectedTheme);
-        if(this.script&&this.script.trim()){
-            localStorage.setItem(Utils.SettingsNameObject.script,this.script);
-        }else{
+        if (this.script && this.script.trim()) {
+            localStorage.setItem(Utils.SettingsNameObject.script, this.script);
+        } else {
             localStorage.removeItem(Utils.SettingsNameObject.script);
         }
     }
@@ -56,7 +73,7 @@ export class SettingsDialogComponent implements OnInit {
         let themeName = localStorage.getItem(Utils.SettingsNameObject.theme);
         let title = localStorage.getItem(Utils.SettingsNameObject.title);
         let script = localStorage.getItem(Utils.SettingsNameObject.script);
-        let data = { 'background': background, 'searchIndex': index, 'theme': themeName, 'title': title ,'script':script};
+        let data = { 'background': background, 'searchIndex': index, 'theme': themeName, 'title': title, 'script': script };
         var element = document.createElement('a');
         const blob = new Blob([JSON.stringify(data)], { type: 'data:text/plain;charset=utf-8' })
         const url = URL.createObjectURL(blob) // Create an object URL from blob

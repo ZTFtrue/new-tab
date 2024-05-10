@@ -7,7 +7,7 @@ function changeFile(type) {
     var json = JSON.parse(data)
     if(type=='chrome'){
         delete json.background.scripts
-        delete json.browser_specific_settings.gecko
+        delete json.browser_specific_settings
     }else if(type=='firefox'){
         delete json.background.service_worker
         // json.content_security_policy.extension_pages = 
