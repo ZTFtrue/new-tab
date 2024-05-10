@@ -10,18 +10,25 @@
         "512": "assets/logo.png"
     },
     "permissions": [
-        "bookmarks",
-        "tabs"
+        "bookmarks"
     ],
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
     "content_security_policy": {
-        "extension_pages": "script-src 'self'; object-src 'self';style-src 'unsafe-inline' 'self'"
+        "extension_pages": "script-src 'self'; object-src 'self';style-src 'unsafe-inline' 'self'; "
     },
-    "action":{
-    },
+    "action": {},
     "background": {
-        "service_worker": "assets/background.js"
+        "service_worker": "assets/background.js",
+        "scripts": [
+            "assets/background.js"
+        ]
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "speed-dial@ztftrue.com",
+            "strict_min_version": "91.0"
+        }
     }
 }

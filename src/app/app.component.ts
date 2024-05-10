@@ -1,13 +1,13 @@
-import { Component, HostListener, NgZone, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, ElementRef, HostListener, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../environments/environment';
+import { Utils } from './Utils/Utils';
 import { BookmarkFolderComponent } from './bookmark-folder/bookmark-folder.component';
 import { CommunicationService } from './communication.service';
 import { DialogComponent } from './dialog/dialog.component';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
-import { DOCUMENT } from '@angular/common';
-import { environment } from '../environments/environment';
-import { Utils } from './Utils/Utils';
 const hostObject = environment.hostObject;
 interface SearchEngine {
     url: string;
@@ -184,9 +184,12 @@ export class AppComponent implements OnInit {
         const bottomRef = this.bottomSheet.open(BookmarkFolderComponent, {
             autoFocus: false,
             restoreFocus: false,
+            hasBackdrop: true,
+            disableClose: false,
             data: bookmark
         });
         bottomRef.afterDismissed().subscribe(result => {
+            console.log(result);
             if (result) {
                 this.getBookMarks();
             }

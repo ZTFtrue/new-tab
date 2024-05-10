@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CommunicationService } from '../communication.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from '../../environments/environment';
-
+import { CommunicationService } from '../communication.service';
 let hostObject = environment.hostObject;
 @Component({
     selector: 'app-dialog',

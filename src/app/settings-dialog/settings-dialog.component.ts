@@ -1,20 +1,11 @@
-import { Component, OnInit, NgZone, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
 import { DOCUMENT } from '@angular/common';
+import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 import { Utils } from '../Utils/Utils';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
 
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-    imports: [MatInputModule, MatFormFieldModule, MatSelectModule, MatCardModule, MatIconModule, MatButtonModule, FormsModule],
-    standalone: true,
     selector: 'app-settings-dialog',
     templateUrl: './settings-dialog.component.html',
     styleUrls: ['./settings-dialog.component.css']

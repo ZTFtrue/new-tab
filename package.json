@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "firefox": "ng build --configuration firefox",
-    "chrome": "ng build --configuration chrome",
+    "firefox": "ng build --configuration firefox&&node ./changefile.js --firefox",
+    "chrome": "ng build --configuration chrome&&node ./changefile.js --chrome",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
