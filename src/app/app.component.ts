@@ -189,7 +189,6 @@ export class AppComponent implements OnInit {
             data: bookmark
         });
         bottomRef.afterDismissed().subscribe(result => {
-            console.log(result);
             if (result) {
                 this.getBookMarks();
             }
