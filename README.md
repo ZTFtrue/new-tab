@@ -10,7 +10,7 @@ Replace firefox or chrome new tab.
 
 3. If you need to save settings , you need to add a bookmark. It  address is  [https://github.com/ZTFtrue/New-Tab](https://github.com/ZTFtrue/New-Tab)  , and title is { 'theme': null, 'background': null, 'search': 1 }
 
-4. There has other fuction ,  when you move mouse  on left-down , right-down , right-top corner.
+4. There has other fuction ,  when you move mouse  on __left-down__ , __right-down__ , __right-top__ corner.
 
 5. you can request issues,if you have any issues. I hope this extension will make make you feel interesting.
 
@@ -38,9 +38,10 @@ open "dist/" folder.
 
 ## Preview
 
-![1](./picture/1.jpg)
+![1](./picture/11.png)
+![1](./picture/22.png)
+![1](./picture/33.png)
 ![1](./picture/2.jpg)
-![1](./picture/3.jpg)
 
 ## TODO
 
