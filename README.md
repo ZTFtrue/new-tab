@@ -4,7 +4,7 @@ Replace firefox or chrome new tab.
 
 ## Use
 
-1. You can create bookmarks folder in your browser, the title is desktop-newtap; then The extension will read the folder and show it.
+1. You can create bookmarks folder in your browser, the title is  `desktop-newtab`; then The extension will read the folder and show it.
 
 2. You can switch search engine, when you move mouse on the search icon(default google), you can know it.
 
