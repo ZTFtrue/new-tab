@@ -8,7 +8,7 @@ Replace firefox or chrome new tab.
 
 2. You can switch search engine, when you move mouse on the search icon(default google), you can know it.
 
-3. If you need to save settings , you need to add a bookmark. It  address is  [https://github.com/ZTFtrue/New-Tab](https://github.com/ZTFtrue/New-Tab)  , and title is { 'theme': null, 'background': null, 'search': 1 }
+3. ~~If you need to save settings , you need to add a bookmark. It  address is  [https://github.com/ZTFtrue/New-Tab](https://github.com/ZTFtrue/New-Tab)  , and title is { 'theme': null, 'background': null, 'search': 1 }~~
 
 4. There has other fuction ,  when you move mouse  on __left-down__ , __right-down__ , __right-top__ corner.
 
