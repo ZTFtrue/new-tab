@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -14,7 +13,6 @@ export class BookmarkFolderComponent {
     constructor(
         private bottomSheetRef: MatBottomSheetRef<BookmarkFolderComponent>,
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-        public snackBar: MatSnackBar,
         public dialog: MatDialog
     ) { }
     onClickSiteBlock(event, site) {
@@ -27,7 +25,7 @@ export class BookmarkFolderComponent {
                 bookmarkId: site.id,
                 bookmarkTitle: site.title,
                 bookmarkUrl: site.url,
-                tip: '在文件夹打开的书签，你需要重新打开文件夹才能看到改变'
+                tip: ''
             }
         });
         this.bottomSheetRef.dismiss()

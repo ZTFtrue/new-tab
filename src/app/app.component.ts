@@ -18,7 +18,7 @@ interface SearchEngine {
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
     @ViewChild('background_image', { static: true }) imageElement: ElementRef;
@@ -153,6 +153,9 @@ export class AppComponent implements OnInit {
                 this.getBookMarks();
             }
         });
+        event.preventDefault();
+    }
+    onClickLeft(event: MouseEvent) {
         event.preventDefault();
     }
     openSettings(event: MouseEvent) {

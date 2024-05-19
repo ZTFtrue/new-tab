@@ -1,11 +1,11 @@
-<div class="main">
+<div class="main" [cdkContextMenuTriggerFor]="context_menu">
     <a class="time-view" href="https://www.startpage.com">
         <embed class="yin-yang" src="../assets/yinyang.svg" type="image/svg+xml" />
         <div class="time">
             {{ title }}
         </div>
     </a>
-    <div class="search-view">
+    <div class="search-view" [cdkContextMenuTriggerFor]="inner">
         <div class="select-view">
             <div class="select-view-selected"> <img class="search-icon"
                     [src]="serachEngineList[searchEngineIndex].icon" /></div>
@@ -14,11 +14,11 @@
                     [src]="serachEngineList[i].icon" />
             </div>
         </div>
-        <input class="search-input" autofocus [placeholder]="serachEngineList[searchEngineIndex].name"
+        <input class="search-input"  (contextmenu)="$event.stopPropagation()" autofocus [placeholder]="serachEngineList[searchEngineIndex].name"
             [(ngModel)]="inputContent" (keyup)="onKey($event)" />
         <img class="search-button" (click)="onSearch()" src="../assets/search.svg" />
     </div>
-    <div class="site-view">
+    <div class="site-view" [cdkContextMenuTriggerFor]="inner">
         <div matRipple class="site-block" *ngFor="let site of siteList">
             <a class="site-url" *ngIf="site.url; else folder" (contextmenu)="onClickSiteBlock($event, site)"
                 href="{{ site.url }}">
@@ -34,21 +34,33 @@
         </div>
     </div>
 </div>
-<div class="other-setting other-setting-left">
+<div class="other-setting other-setting-left" [cdkContextMenuTriggerFor]="inner">
     <a class="other-setting-block-left" [href]="storeHref"> <img src="../assets/store.svg" /></a>
     <a class="other-setting-block-left" href="https://github.com/ZTFtrue/New-Tab/blob/main/README.md"> <img
             src="../assets/help.svg" /></a>
 </div>
-<div onselect="false" class="other-setting other-setting-right">
+<div onselect="false" class="other-setting other-setting-right" [cdkContextMenuTriggerFor]="inner">
     <span class="other-setting-block" (click)="openSettings($event)"> <img src="../assets/settings.svg" /></span>
     <span class="other-setting-block" (click)="switchWallPaper()">
-        <input type="file" accept="image/*" #upload_backimage style="display: none"  (change)="preview_image($event)">
+        <input type="file" accept="image/*" #upload_backimage style="display: none" (change)="preview_image($event)">
         <img src="../assets/wallpaper.svg" />
     </span>
 </div>
-<div class="search-bookmark-view">
+<div class="search-bookmark-view"  [cdkContextMenuTriggerFor]="inner">
     <input class="search-bookmark-input" placeholder="Search bookmarks"
         [ngClass]="{'search-bookmark-input-show': searchInputBookMark}" [(ngModel)]="searchInputBookMark"
         (keyup)="onKeySearchBook($event)" />
 </div>
 <img class="background-papper" #background_image />
+<ng-template #context_menu>
+    <div class="example-menu" cdkMenu>
+        <button class="example-menu-item" mat-button cdkMenuItem (click)="openSettings($event)">Settings</button>
+        <!-- <button class="example-menu-item" mat-button cdkMenuItem>Search BookMarks</button> -->
+        <button class="example-menu-item" mat-button cdkMenuItem (click)="switchWallPaper()">Wallpaper</button>
+        <a class="example-menu-item" mat-button cdkMenuItem [href]="storeHref"> Store</a>
+        <a class="example-menu-item" mat-button cdkMenuItem href="https://github.com/ZTFtrue/New-Tab/blob/main/README.md">Help</a>
+    </div>
+</ng-template>
+<ng-template #inner>
+
+</ng-template>
