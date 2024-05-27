@@ -67,13 +67,9 @@ export class AppComponent implements OnInit {
         this.getBookMarks();
         this.communication.messageObserve.subscribe((res: boolean) => {
             if (res) {
-                this.getBookMarks();
+                this.onKeySearchBook(null);
             }
         });
-        // let script = localStorage.getItem(Utils.SettingsNameObject.script);
-        // if (script) {
-        //     this.runCustomScript(script)();
-        // }
     }
     ngOnMounted() {
     }
@@ -150,7 +146,7 @@ export class AppComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.getBookMarks();
+                this.onKeySearchBook(null);
             }
         });
         event.preventDefault();
@@ -193,7 +189,7 @@ export class AppComponent implements OnInit {
         });
         bottomRef.afterDismissed().subscribe(result => {
             if (result) {
-                this.getBookMarks();
+                this.onKeySearchBook(null);
             }
         });
     }
