@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     @ViewChild('upload_backimage', { static: true }) inputBackgroundImageElement: ElementRef;
     inputContent = null;
     title = '洛霞与孤鹜齐飞，秋水共长天一色';
+    environmentName=environment.name;
     dialogShow = false;
     siteList = [];
     searchEngineIndex = 0;
@@ -48,14 +49,21 @@ export class AppComponent implements OnInit {
     ) {
     }
     onSearch() {
-        if (this.inputContent !== null) {
-            window.location.href =
-                this.serachEngineList[this.searchEngineIndex].url +
-                encodeURIComponent(this.inputContent);
+        if (environment.name == 'chrome') {
+            hostObject.search.query({
+                text: "your search query",
+                disposition: "CURRENT_TAB" // or "NEW_WINDOW"
+            });
         } else {
-            window.location.href = this.serachEngineList[
-                this.searchEngineIndex
-            ].url;
+            if (this.inputContent !== null) {
+                window.location.href =
+                    this.serachEngineList[this.searchEngineIndex].url +
+                    encodeURIComponent(this.inputContent);
+            } else {
+                window.location.href = this.serachEngineList[
+                    this.searchEngineIndex
+                ].url;
+            }
         }
     }
     onSelectedItem(value: number) {

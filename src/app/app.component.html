@@ -6,15 +6,15 @@
         </div>
     </a>
     <div class="search-view" [cdkContextMenuTriggerFor]="inner">
-        <div class="select-view">
-            <div class="select-view-selected"> <img class="search-icon"
+        <div class="select-view" *ngIf="environmentName=='firefox'">
+            <div  class="select-view-selected"> <img class="search-icon"
                     [src]="serachEngineList[searchEngineIndex].icon" /></div>
             <div class="select-item-view">
                 <img *ngFor="let item of serachEngineList;let i=index" class="search-icon" (click)="onSelectedItem(i)"
                     [src]="serachEngineList[i].icon" />
             </div>
         </div>
-        <input class="search-input"  (contextmenu)="$event.stopPropagation()" autofocus [placeholder]="serachEngineList[searchEngineIndex].name"
+        <input class="search-input"  (contextmenu)="$event.stopPropagation()" autofocus [placeholder]="environmentName=='firefox'?serachEngineList[searchEngineIndex].name:'Search in here'"
             [(ngModel)]="inputContent" (keyup)="onKey($event)" />
         <img class="search-button" (click)="onSearch()" src="../assets/search.svg" />
     </div>

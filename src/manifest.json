@@ -1,7 +1,7 @@
 {
     "name": "Speed Dial",
     "description": "Speed Dial",
-    "version": "3.0",
+    "version": "3.1",
     "manifest_version": 3,
     "icons": {
         "128": "assets/logo128.png",
@@ -10,7 +10,8 @@
         "512": "assets/logo.png"
     },
     "permissions": [
-        "bookmarks"
+        "bookmarks",
+        "search"
     ],
     "chrome_url_overrides": {
         "newtab": "index.html"

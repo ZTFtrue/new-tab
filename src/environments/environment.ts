@@ -7,4 +7,5 @@ export const environment = {
   production: false,
   hostObject: null,
   storeHref: null,
+  name: null,
 };
