@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     onSearch() {
         if (environment.name == 'chrome') {
             hostObject.search.query({
-                text: "your search query",
+                text: this.inputContent,
                 disposition: "CURRENT_TAB" // or "NEW_WINDOW"
             });
         } else {
